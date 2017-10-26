@@ -22,7 +22,10 @@ public class UserSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Yng_User user = userDao.findByUsername(username);
+        Yng_User user = userDao.findByEmail(username);
+        if(user==null) {
+        	user = userDao.findByUsername(username);
+        }
         if (null == user) {
             LOG.warn("Username {} not found", username);
             throw new UsernameNotFoundException("Username " + username + " not found");
