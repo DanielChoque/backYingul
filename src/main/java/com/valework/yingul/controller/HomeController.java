@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.valework.yingul.dao.CityDao;
 import com.valework.yingul.dao.ProvinceDao;
 import com.valework.yingul.dao.RoleDao;
-import com.valework.yingul.dao.UserDao;
 import com.valework.yingul.model.Yng_User;
 import com.valework.yingul.model.security.Yng_UserRole;
 import com.valework.yingul.service.UserService;
@@ -40,25 +38,14 @@ public class HomeController {
 	@Autowired
     private RoleDao roleDao;
 	
-	/*@RequestMapping("/")
-	public String home() {
-		return "redirect:/index";
-	}
-	
-	@RequestMapping("/index")
-    public String index() {
-        return "index";
-    }*/
-	
-	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	@ResponseBody
+	/*@RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signup(Model model) {
         Yng_User user = new Yng_User();
 
         model.addAttribute("user", user);
 
-        return model.toString();
-    }
+        return "signup";
+    }*/
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	@ResponseBody
