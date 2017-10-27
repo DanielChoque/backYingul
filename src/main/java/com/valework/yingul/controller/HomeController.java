@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.userfront.domain.User;
+
 import com.valework.yingul.dao.CityDao;
 import com.valework.yingul.dao.ProvinceDao;
 import com.valework.yingul.dao.RoleDao;
