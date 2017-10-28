@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService{
             }
 
             user.getUserRoles().addAll(userRoles);
-
+            
             localUser = userDao.save(user);
         }
 

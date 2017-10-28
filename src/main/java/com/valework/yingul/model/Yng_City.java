@@ -10,7 +10,7 @@ import javax.persistence.Id;
 public class Yng_City {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "provinceId", nullable = false, updatable = false)
+    @Column(name = "cityId", nullable = false, updatable = false)
 	private int cityId;
 	private String name;
 	public int getCityId() {
