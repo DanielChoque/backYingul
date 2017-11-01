@@ -30,7 +30,6 @@ public class Yng_User implements UserDetails{
     private Long userId;
     private String username;
     private String password;
-    private String address;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -39,10 +38,7 @@ public class Yng_User implements UserDetails{
     private boolean enabled=true;
 
     @OneToOne
-    private Yng_City yng_City;
-
-    @OneToOne
-    private Yng_Province yng_Province;
+	private Yng_Ubication yng_Ubication;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
@@ -72,14 +68,6 @@ public class Yng_User implements UserDetails{
         this.username = username;
     }
 
-    public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
 	public String getEmail() {
         return email;
     }
@@ -104,32 +92,17 @@ public class Yng_User implements UserDetails{
         this.password = password;
     }
 
-    public Yng_City getYng_City() {
-		return yng_City;
-	}
-
-	public void setYng_City(Yng_City yng_City) {
-		this.yng_City = yng_City;
-	}
-
-	public Yng_Province getYng_Province() {
-		return yng_Province;
-	}
-
-	public void setYng_Province(Yng_Province yng_Province) {
-		this.yng_Province = yng_Province;
-	}
-
 	public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
+	
+	public Yng_Ubication getYng_Ubication() {
+		return yng_Ubication;
+	}
 
-    @Override
-	public String toString() {
-		return "Yng_User [userId=" + userId + ", username=" + username + ", password=" + password + ", address="
-				+ address + ", email=" + email + ", phone=" + phone + ", enabled=" + enabled + ", yng_City=" + yng_City
-				+ ", yng_Province=" + yng_Province + ", userRoles=" + userRoles + "]";
+	public void setYng_Ubication(Yng_Ubication yng_Ubication) {
+		this.yng_Ubication = yng_Ubication;
 	}
 
 	@Override
@@ -162,5 +135,12 @@ public class Yng_User implements UserDetails{
         return enabled;
     }
 
+	@Override
+	public String toString() {
+		return "Yng_User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", phone=" + phone + ", enabled=" + enabled + ", yng_Ubication=" + yng_Ubication + ", userRoles="
+				+ userRoles + "]";
+	}
 
+	
 }
