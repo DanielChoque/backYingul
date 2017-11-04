@@ -4,11 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,16 +14,22 @@ import javax.persistence.OneToMany;
 @Entity
 public class Yng_Category {
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "categoryId", nullable = false, updatable = false)
+   // @GeneratedValue(strategy = GenerationType.AUTO)
+    //@Column(name = "categoryId", nullable = false, updatable = false)
 	private int categoryId;
 	private String name;
 	private int level;
+	private String itemType;
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "father_id")
     private Yng_Category yng_Category;
+	
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Yng_ItemCategory> itemCategory = new HashSet<>();
+    
+    public Yng_Category() {
+    	
+    }
 	public int getCategoryId() {
 		return categoryId;
 	}
@@ -57,12 +60,22 @@ public class Yng_Category {
 	public void setItemCategory(Set<Yng_ItemCategory> itemCategory) {
 		this.itemCategory = itemCategory;
 	}
+	public String getItemType() {
+		return itemType;
+	}
+	public void setItemType(String itemType) {
+		this.itemType = itemType;
+	}
+	/*@Override
+	public String toString() {
+		return "Yng_Category [categoryId=" + categoryId + ", name=" + name + ", level=" + level + ", itemType="
+				+ itemType + ", yng_Category=" + yng_Category + ", itemCategory=" + itemCategory + "]";
+	}*/
 	@Override
 	public String toString() {
-		return "Yng_Category [categoryId=" + categoryId + ", name=" + name + ", level=" + level + ", yng_Category="
-				+ yng_Category + ", itemCategory=" + itemCategory + "]";
+		return "Yng_Category [categoryId=" + categoryId + ", name=" + name + ", level=" + level + ", itemType="
+				+ itemType + ", yng_Category=" + yng_Category + ", itemCategory=" + itemCategory + "]";
 	}
-	
-	
+
 	
 }

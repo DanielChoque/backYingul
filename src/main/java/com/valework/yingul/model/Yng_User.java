@@ -142,5 +142,13 @@ public class Yng_User implements UserDetails{
 				+ userRoles + "]";
 	}
 
+	/*@Override
+	public String toString() {
+		return "Yng_User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", phone=" + phone + ", enabled=" + enabled + ", yng_Ubication=" + yng_Ubication + ", userRoles="
+				+ userRoles + "]";
+	}*/
+    
+
 	
 }

@@ -21,7 +21,8 @@ public class Yng_Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "itemId", nullable = false, updatable = false)
     private Long itemId;
-	private String price;
+	private int price;
+	private String money;
 	private String description;
 	private String name;
 	private String horario;
@@ -32,14 +33,23 @@ public class Yng_Item {
     @JoinColumn(name = "user_id")
     private Yng_User user;
 
-	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.EAGER)  
+	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)  
     private Set<Yng_ItemCategory> itemCategory = new HashSet<>();
 	
-	public String getPrice() {
+    public Yng_Item() {
+    	
+    }
+	public int getPrice() {
 		return price;
 	}
-	public void setPrice(String price) {
+	public void setPrice(int price) {
 		this.price = price;
+	}
+	public String getMoney() {
+		return money;
+	}
+	public void setMoney(String money) {
+		this.money = money;
 	}
 	public String getDescription() {
 		return description;
@@ -83,12 +93,20 @@ public class Yng_Item {
 	public void setItemCategory(Set<Yng_ItemCategory> itemCategory) {
 		this.itemCategory = itemCategory;
 	}
+	/*@Override
+	public String toString() {
+		return "Yng_Item [itemId=" + itemId + ", price=" + price + ", money=" + money + ", description=" + description
+				+ ", name=" + name + ", horario=" + horario + ", yng_Ubication=" + yng_Ubication + ", user=" + user
+				+ ", itemCategory=" + itemCategory + "]";
+	}*/
 	@Override
 	public String toString() {
-		return "Yng_Item [itemId=" + itemId + ", price=" + price + ", description=" + description + ", name=" + name
-				+ ", horario=" + horario + ", yng_Ubication=" + yng_Ubication + ", user=" + user + ", itemCategory="
-				+ itemCategory + "]";
+		return "Yng_Item [itemId=" + itemId + ", price=" + price + ", money=" + money + ", description=" + description
+				+ ", name=" + name + ", horario=" + horario + ", yng_Ubication=" + yng_Ubication + ", user=" + user
+				+ ", itemCategory=" + itemCategory + "]";
 	}
+	
+
 	
 
 	

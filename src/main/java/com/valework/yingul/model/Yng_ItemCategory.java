@@ -16,6 +16,11 @@ public class Yng_ItemCategory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long itemCategoryId;
 	
+	public Yng_ItemCategory(Yng_Item item, Yng_Category category) {
+        this.item = item;
+        this.category = category;
+    }
+	
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id")
     private Yng_Item item;
@@ -24,10 +29,7 @@ public class Yng_ItemCategory {
     @JoinColumn(name = "category_id")
     private Yng_Category category;
 	
-	public Yng_ItemCategory(Yng_Item item, Yng_Category category) {
-        this.item = item;
-        this.category = category;
-    }
+	
 	public Yng_ItemCategory() {
 		
 	}
@@ -50,10 +52,17 @@ public class Yng_ItemCategory {
 	public void setCategory(Yng_Category category) {
 		this.category = category;
 	}
+
 	@Override
 	public String toString() {
 		return "Yng_ItemCategory [itemCategoryId=" + itemCategoryId + ", item=" + item + ", category=" + category + "]";
 	}
+
+	/*@Override
+	public String toString() {
+		return "Yng_ItemCategory [itemCategoryId=" + itemCategoryId + ", item=" + item + ", category=" + category + "]";
+	}*/
+	
 	
 	
 }
