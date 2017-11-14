@@ -4,38 +4,52 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
-public class Yng_Category {
+public class Yng_Category{
 	@Id
-   // @GeneratedValue(strategy = GenerationType.AUTO)
-    //@Column(name = "categoryId", nullable = false, updatable = false)
-	private int categoryId;
+	//si no funciona comentar las dos lineas debajo de esta 
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "categoryId", nullable = false, updatable = false)
+	private Long categoryId;
 	private String name;
 	private int level;
 	private String itemType;
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "father_id")
-    private Yng_Category yng_Category;
+	private Long fatherId;
 	
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonBackReference
     private Set<Yng_ItemCategory> itemCategory = new HashSet<>();
     
     public Yng_Category() {
     	
     }
-	public int getCategoryId() {
+
+	public Long getCategoryId() {
 		return categoryId;
 	}
-	public void setCategoryId(int categoryId) {
+
+	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
 	}
+
+	public Long getFatherId() {
+		return fatherId;
+	}
+
+	public void setFatherId(Long fatherId) {
+		this.fatherId = fatherId;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -48,12 +62,7 @@ public class Yng_Category {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	public Yng_Category getYng_Category() {
-		return yng_Category;
-	}
-	public void setYng_Category(Yng_Category yng_Category) {
-		this.yng_Category = yng_Category;
-	}
+
 	public Set<Yng_ItemCategory> getItemCategory() {
 		return itemCategory;
 	}
@@ -71,11 +80,13 @@ public class Yng_Category {
 		return "Yng_Category [categoryId=" + categoryId + ", name=" + name + ", level=" + level + ", itemType="
 				+ itemType + ", yng_Category=" + yng_Category + ", itemCategory=" + itemCategory + "]";
 	}*/
+
 	@Override
 	public String toString() {
 		return "Yng_Category [categoryId=" + categoryId + ", name=" + name + ", level=" + level + ", itemType="
-				+ itemType + ", yng_Category=" + yng_Category + ", itemCategory=" + itemCategory + "]";
+				+ itemType + ", fatherId=" + fatherId + ", itemCategory=" + itemCategory + "]";
 	}
+
 
 	
 }

@@ -21,7 +21,7 @@ public class Yng_Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "itemId", nullable = false, updatable = false)
     private Long itemId;
-	private int price;
+	private double price;
 	private String money;
 	private String description;
 	private String name;
@@ -39,12 +39,14 @@ public class Yng_Item {
     public Yng_Item() {
     	
     }
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
+
+
 	public String getMoney() {
 		return money;
 	}
@@ -105,6 +107,7 @@ public class Yng_Item {
 				+ ", name=" + name + ", horario=" + horario + ", yng_Ubication=" + yng_Ubication + ", user=" + user
 				+ ", itemCategory=" + itemCategory + "]";
 	}
+	
 	
 
 	

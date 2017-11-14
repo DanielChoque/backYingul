@@ -1,11 +1,16 @@
 package com.valework.yingul.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -14,48 +19,36 @@ public class Yng_Service {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "serviceId", nullable = false, updatable = false)
     private Long serviceId;
-	private String description;
-	private String price;
 	@OneToOne
 	private Yng_Item yng_Item;
-	
+	@OneToMany(mappedBy = "service", cascade = CascadeType.ALL, fetch = FetchType.LAZY)  
+    private Set<Yng_ServiceProvince> cobertureZone = new HashSet<>();   
+    public Yng_Service() {
+    	
+    }
 	public Long getServiceId() {
 		return serviceId;
 	}
 	public void setServiceId(Long serviceId) {
 		this.serviceId = serviceId;
 	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getPrice() {
-		return price;
-	}
-	public void setPrice(String price) {
-		this.price = price;
-	}
+
 	public Yng_Item getYng_Item() {
 		return yng_Item;
 	}
 	public void setYng_Item(Yng_Item yng_Item) {
 		this.yng_Item = yng_Item;
 	}
-	/*@Override
-	public String toString() {
-		return "Yng_Service [serviceId=" + serviceId + ", description=" + description + ", price=" + price
-				+ ", yng_Item=" + yng_Item + "]";
-	}*/
+	public Set<Yng_ServiceProvince> getCobertureZone() {
+		return cobertureZone;
+	}
+	public void setCobertureZone(Set<Yng_ServiceProvince> cobertureZone) {
+		this.cobertureZone = cobertureZone;
+	}
 	@Override
 	public String toString() {
-		return "Yng_Service [serviceId=" + serviceId + ", description=" + description + ", price=" + price
-				+ ", yng_Item=" + yng_Item + "]";
+		return "Yng_Service [serviceId=" + serviceId + ", yng_Item=" + yng_Item + ", cobertureZone=" + cobertureZone
+				+ "]";
 	}
-	
-
-	
-	
 
 }

@@ -10,27 +10,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Yng_City {
+public class Yng_Barrio {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "cityId", nullable = false, updatable = false)
-	private int cityId;
+    @Column(name = "barrioId", nullable = false, updatable = false)
+	private int barrioId;
 	private String name;
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "province_id")
-    private Yng_Province yng_Province;
-	
-	public Yng_Province getYng_Province() {
-		return yng_Province;
+	@JoinColumn(name = "city_id")
+    private Yng_City yng_City;
+	public int getBarrioId() {
+		return barrioId;
 	}
-	public void setYng_Province(Yng_Province yng_Province) {
-		this.yng_Province = yng_Province;
-	}
-	public int getCityId() {
-		return cityId;
-	}
-	public void setCityId(int cityId) {
-		this.cityId = cityId;
+	public void setBarrioId(int barrioId) {
+		this.barrioId = barrioId;
 	}
 	public String getName() {
 		return name;
@@ -38,10 +31,15 @@ public class Yng_City {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public Yng_City getYng_City() {
+		return yng_City;
+	}
+	public void setYng_City(Yng_City yng_City) {
+		this.yng_City = yng_City;
+	}
 	@Override
 	public String toString() {
-		return "Yng_City [cityId=" + cityId + ", name=" + name + ", yng_Province=" + yng_Province + "]";
+		return "Yng_Barrio [barrioId=" + barrioId + ", name=" + name + ", yng_City=" + yng_City + "]";
 	}
-
 	
 }

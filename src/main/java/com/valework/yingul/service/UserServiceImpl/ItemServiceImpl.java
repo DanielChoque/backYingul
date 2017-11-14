@@ -1,5 +1,6 @@
 package com.valework.yingul.service.UserServiceImpl;
 
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -47,6 +48,16 @@ public class ItemServiceImpl implements ItemService{
         }
 
         return localItem;
+	}
+
+	public List<Yng_Item> findAll() {
+		// TODO Auto-generated method stub
+		return itemDao.findAll();
+	}
+
+	public void save(Yng_Item yng_item) {
+		itemDao.save(yng_item);
+		
 	}
 	
 	

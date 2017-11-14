@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.valework.yingul.SmtpMailSender;
 import com.valework.yingul.dao.RoleDao;
 import com.valework.yingul.model.Yng_Person;
 import com.valework.yingul.model.Yng_User;
@@ -36,11 +37,14 @@ public class HomeController {
 	@Autowired
     private RoleDao roleDao;
 	
+	@Autowired
+	private SmtpMailSender smtpMailSender;
+	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	@ResponseBody
     public String signupPost(@Valid @RequestBody Yng_Person person) throws MessagingException {
-        
 		Yng_User user=person.getYng_User();
+		String password= user.getPassword();
 		user.setUsername(person.getName()+person.getLastname());
 		LOG.info(user.getUsername());
 		if(userService.checkUsernameExists(user.getUsername())) {
@@ -61,6 +65,7 @@ public class HomeController {
             userService.createUser(user, userRoles);
             Yng_User temp = userService.findByEmail(user.getEmail());
             personService.createPerson(person, temp);
+            smtpMailSender.send(user.getEmail(), "Autenticado exitosamente", "Ya esta autenticado su password es:"+password);
             return "save";
         }
     }
@@ -68,7 +73,7 @@ public class HomeController {
 	@RequestMapping("/userFront")
 	@ResponseBody
 	public String userFront(Principal principal, Model model) {
-        return "autenticado";
+        return principal.getName().toString();
     }
 	
 }

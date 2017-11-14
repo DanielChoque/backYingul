@@ -13,8 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
 import com.valework.yingul.service.UserServiceImpl.UserSecurityService;
 
 @Configuration
@@ -47,7 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/console/**",
             "/signup",
             //eddy recuerda borrar esto por seguridad
-            "/service"
+            "/sell/**",
+            "/category/**",
+            "/province/**",
+            "/city/**",
+            "/barrio/**",
+            "/index/**"
     };
 
     @Override

@@ -15,13 +15,18 @@ public class Yng_Ubication {
     private Long ubicationId;
 	private String latitud;
 	private String longitud;
-	private String address;
+	private String street;
+	private String number;
+	private String postalCode;
+	private String aditional;
 	@OneToOne
     private Yng_City yng_City;
 	@OneToOne
     private Yng_Province yng_Province;
 	@OneToOne
     private Yng_Department yng_Department;
+	@OneToOne
+	private Yng_Barrio yng_Barrio;
 	
 	public Long getUbicationId() {
 		return ubicationId;
@@ -41,6 +46,30 @@ public class Yng_Ubication {
 	public void setLongitud(String longitud) {
 		this.longitud = longitud;
 	}
+	public String getStreet() {
+		return street;
+	}
+	public void setStreet(String street) {
+		this.street = street;
+	}
+	public String getNumber() {
+		return number;
+	}
+	public void setNumber(String number) {
+		this.number = number;
+	}
+	public String getPostalCode() {
+		return postalCode;
+	}
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+	public String getAditional() {
+		return aditional;
+	}
+	public void setAditional(String aditional) {
+		this.aditional = aditional;
+	}
 	public Yng_City getYng_City() {
 		return yng_City;
 	}
@@ -59,17 +88,18 @@ public class Yng_Ubication {
 	public void setYng_Department(Yng_Department yng_Department) {
 		this.yng_Department = yng_Department;
 	}
-	public String getAddress() {
-		return address;
+	public Yng_Barrio getYng_Barrio() {
+		return yng_Barrio;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setYng_Barrio(Yng_Barrio yng_Barrio) {
+		this.yng_Barrio = yng_Barrio;
 	}
 	@Override
 	public String toString() {
 		return "Yng_Ubication [ubicationId=" + ubicationId + ", latitud=" + latitud + ", longitud=" + longitud
-				+ ", address=" + address + ", yng_City=" + yng_City + ", yng_Province=" + yng_Province
-				+ ", yng_Department=" + yng_Department + "]";
+				+ ", street=" + street + ", number=" + number + ", postalCode=" + postalCode + ", aditional="
+				+ aditional + ", yng_City=" + yng_City + ", yng_Province=" + yng_Province + ", yng_Department="
+				+ yng_Department + ", yng_Barrio=" + yng_Barrio + "]";
 	}
 
 	

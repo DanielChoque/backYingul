@@ -1,10 +1,18 @@
 package com.valework.yingul.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Yng_Province {
@@ -13,6 +21,13 @@ public class Yng_Province {
     @Column(name = "provinceId", nullable = false, updatable = false)
     private int provinceId;
 	private String name;
+	@OneToMany(mappedBy = "province", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonBackReference
+    private Set<Yng_ServiceProvince> serviceProvince = new HashSet<>();
+	
+	public Yng_Province() {
+		
+	}
 	public int getProvinceId() {
 		return provinceId;
 	}
@@ -25,11 +40,16 @@ public class Yng_Province {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+	public Set<Yng_ServiceProvince> getServiceProvince() {
+		return serviceProvince;
+	}
+	public void setServiceProvince(Set<Yng_ServiceProvince> serviceProvince) {
+		this.serviceProvince = serviceProvince;
+	}
 	@Override
 	public String toString() {
-		return "Yng_Province [provinceId=" + provinceId + ", name=" + name + "]";
+		return "Yng_Province [provinceId=" + provinceId + ", name=" + name + ", serviceProvince=" + serviceProvince
+				+ "]";
 	}
-	
 	
 }
