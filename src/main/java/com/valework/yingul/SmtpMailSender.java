@@ -21,6 +21,7 @@ public class SmtpMailSender {
 		helper.setSubject(subject);
 		helper.setTo(to);
 		helper.setText(body,true);
+		helper.setFrom("yingul@valework.com");
 		javaMailSender.send(message);
 		
 	}

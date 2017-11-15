@@ -45,7 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/console/**",
             "/signup",
             //eddy recuerda borrar esto por seguridad
-            "/sell/**",
             "/category/**",
             "/province/**",
             "/city/**",

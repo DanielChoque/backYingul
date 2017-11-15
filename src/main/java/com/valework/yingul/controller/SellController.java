@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +29,7 @@ import com.valework.yingul.service.UserService;
 
 @RestController
 @RequestMapping("/sell")
+@PreAuthorize("hasRole('ADMIN')")
 public class SellController {
 	private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 	@Autowired 
