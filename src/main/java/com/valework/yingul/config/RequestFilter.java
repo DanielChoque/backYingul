@@ -19,8 +19,11 @@ public class RequestFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
-        //cambiar por local para probar 
+        //amazon produccion
         //response.setHeader("Access-Control-Allow-Origin", "http://yingulportal.s3-website-us-west-2.amazonaws.com");
+        //amazon desarrollo
+        //response.setHeader("Access-Control-Allow-Origin", "http://yingulportaldev.s3-website-us-west-2.amazonaws.com");
+        //local
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with");

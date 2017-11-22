@@ -19,6 +19,7 @@ public class Yng_Service {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "serviceId", nullable = false, updatable = false)
     private Long serviceId;
+	private String emailService;
 	@OneToOne
 	private Yng_Item yng_Item;
 	@OneToMany(mappedBy = "service", cascade = CascadeType.ALL, fetch = FetchType.LAZY)  
@@ -45,10 +46,16 @@ public class Yng_Service {
 	public void setCobertureZone(Set<Yng_ServiceProvince> cobertureZone) {
 		this.cobertureZone = cobertureZone;
 	}
+	public String getEmailService() {
+		return emailService;
+	}
+	public void setEmailService(String emailService) {
+		this.emailService = emailService;
+	}
 	@Override
 	public String toString() {
-		return "Yng_Service [serviceId=" + serviceId + ", yng_Item=" + yng_Item + ", cobertureZone=" + cobertureZone
-				+ "]";
+		return "Yng_Service [serviceId=" + serviceId + ", emailService=" + emailService + ", yng_Item=" + yng_Item
+				+ ", cobertureZone=" + cobertureZone + "]";
 	}
-
+	
 }

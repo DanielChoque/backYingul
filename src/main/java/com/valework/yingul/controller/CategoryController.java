@@ -15,6 +15,7 @@ public class CategoryController {
 
 	@Autowired
     private CategoryService categoryService;
+
 	
 	@RequestMapping("/all")
     public List<Yng_Category> findCategoryList() {
@@ -31,5 +32,6 @@ public class CategoryController {
     	 List<Yng_Category> categoryList = categoryService.findByFatherId(father);
          return categoryList;
     }
+
     
 }

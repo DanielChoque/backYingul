@@ -14,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Yng_Item {
@@ -26,6 +29,10 @@ public class Yng_Item {
 	private String description;
 	private String name;
 	private String horario;
+	@Size(max = 500)
+	private java.lang.String principalImage;
+	private String video;
+	
 	@OneToOne
 	private Yng_Ubication yng_Ubication;
 	
@@ -34,19 +41,29 @@ public class Yng_Item {
     private Yng_User user;
 
 	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)  
+	@JsonBackReference(value="itemCategory")
     private Set<Yng_ItemCategory> itemCategory = new HashSet<>();
 	
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)  
+    @JsonBackReference(value="itemImage")
+    private Set<Yng_ItemImage> itemImage = new HashSet<>();
+    
     public Yng_Item() {
     	
     }
+    
+	public Yng_Item(String name) {
+		super();
+		this.name = name;
+	}
+
+
 	public double getPrice() {
 		return price;
 	}
 	public void setPrice(double price) {
 		this.price = price;
 	}
-
-
 	public String getMoney() {
 		return money;
 	}
@@ -95,22 +112,38 @@ public class Yng_Item {
 	public void setItemCategory(Set<Yng_ItemCategory> itemCategory) {
 		this.itemCategory = itemCategory;
 	}
-	/*@Override
-	public String toString() {
-		return "Yng_Item [itemId=" + itemId + ", price=" + price + ", money=" + money + ", description=" + description
-				+ ", name=" + name + ", horario=" + horario + ", yng_Ubication=" + yng_Ubication + ", user=" + user
-				+ ", itemCategory=" + itemCategory + "]";
-	}*/
+	public Set<Yng_ItemImage> getItemImage() {
+		return itemImage;
+	}
+	public void setItemImage(Set<Yng_ItemImage> itemImage) {
+		this.itemImage = itemImage;
+	}
+
+
+	public java.lang.String getPrincipalImage() {
+		return principalImage;
+	}
+
+	public void setPrincipalImage(java.lang.String principalImage) {
+		this.principalImage = principalImage;
+	}
+
+	public String getVideo() {
+		return video;
+	}
+
+	public void setVideo(String video) {
+		this.video = video;
+	}
+
 	@Override
 	public String toString() {
 		return "Yng_Item [itemId=" + itemId + ", price=" + price + ", money=" + money + ", description=" + description
-				+ ", name=" + name + ", horario=" + horario + ", yng_Ubication=" + yng_Ubication + ", user=" + user
-				+ ", itemCategory=" + itemCategory + "]";
+				+ ", name=" + name + ", horario=" + horario + ", principalImage=" + principalImage + ", video=" + video
+				+ ", yng_Ubication=" + yng_Ubication + ", user=" + user + ", itemCategory=" + itemCategory
+				+ ", itemImage=" + itemImage + "]";
 	}
-	
-	
 
-	
 
-	
+
 }

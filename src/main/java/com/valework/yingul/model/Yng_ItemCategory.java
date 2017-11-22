@@ -58,6 +58,7 @@ public class Yng_ItemCategory {
 		return "Yng_ItemCategory [itemCategoryId=" + itemCategoryId + ", item=" + item + ", category=" + category + "]";
 	}
 
+
 	/*@Override
 	public String toString() {
 		return "Yng_ItemCategory [itemCategoryId=" + itemCategoryId + ", item=" + item + ", category=" + category + "]";

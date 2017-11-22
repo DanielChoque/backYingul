@@ -34,7 +34,8 @@ public class Yng_User implements UserDetails{
     @Column(name = "email", nullable = false, unique = true)
     private String email;
     private String phone;
-
+    private String phone2;
+    private String webSite;
     private boolean enabled=true;
 
     @OneToOne
@@ -104,6 +105,16 @@ public class Yng_User implements UserDetails{
 	public void setYng_Ubication(Yng_Ubication yng_Ubication) {
 		this.yng_Ubication = yng_Ubication;
 	}
+	
+
+
+	public String getWebSite() {
+		return webSite;
+	}
+
+	public void setWebSite(String webSite) {
+		this.webSite = webSite;
+	}
 
 	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -135,20 +146,19 @@ public class Yng_User implements UserDetails{
         return enabled;
     }
 
+	public String getPhone2() {
+		return phone2;
+	}
+
+	public void setPhone2(String phone2) {
+		this.phone2 = phone2;
+	}
+
 	@Override
 	public String toString() {
 		return "Yng_User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", phone=" + phone + ", enabled=" + enabled + ", yng_Ubication=" + yng_Ubication + ", userRoles="
-				+ userRoles + "]";
+				+ ", phone=" + phone + ", phone2=" + phone2 + ", webSite=" + webSite + ", enabled=" + enabled
+				+ ", yng_Ubication=" + yng_Ubication + ", userRoles=" + userRoles + "]";
 	}
-
-	/*@Override
-	public String toString() {
-		return "Yng_User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", phone=" + phone + ", enabled=" + enabled + ", yng_Ubication=" + yng_Ubication + ", userRoles="
-				+ userRoles + "]";
-	}*/
-    
-
 	
 }

@@ -14,6 +14,7 @@ import com.valework.yingul.service.CityService;
 import com.valework.yingul.service.ProvinceService;
 
 @RestController
+@RequestMapping("/ubication")
 public class UbicationController {
 	
 	@Autowired

@@ -45,11 +45,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/console/**",
             "/signup",
             //eddy recuerda borrar esto por seguridad
+            "/sell/**",
+            "/ubication/**",
             "/category/**",
-            "/province/**",
-            "/city/**",
-            "/barrio/**",
-            "/index/**"
+            "/index/**",
+            "/user/**"
     };
 
     @Override
