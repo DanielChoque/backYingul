@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="coberture_zone")
 public class Yng_ServiceProvince {
@@ -17,6 +19,7 @@ public class Yng_ServiceProvince {
     private long serviceProvinceId;
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id")
+	@JsonBackReference(value="service_id")
     private Yng_Service service;
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "province_id")

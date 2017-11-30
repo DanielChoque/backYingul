@@ -2,6 +2,7 @@ package com.valework.yingul.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +17,7 @@ public class Yng_Person {
 	private String name;
 	private String lastname;
 	private boolean isBusiness;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	private Yng_User yng_User;
 	public Long getPersonId() {
 		return personId;
