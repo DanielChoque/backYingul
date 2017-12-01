@@ -28,6 +28,7 @@ import com.valework.yingul.model.Yng_Item;
 import com.valework.yingul.model.Yng_ItemCategory;
 import com.valework.yingul.model.Yng_ItemImage;
 import com.valework.yingul.model.Yng_Person;
+import com.valework.yingul.model.Yng_Product;
 import com.valework.yingul.model.Yng_Query;
 import com.valework.yingul.model.Yng_Service;
 import com.valework.yingul.model.Yng_User;
@@ -35,6 +36,7 @@ import com.valework.yingul.service.ItemCategoryService;
 import com.valework.yingul.service.ItemImageService;
 import com.valework.yingul.service.ItemService;
 import com.valework.yingul.service.PersonService;
+import com.valework.yingul.service.ProductService;
 import com.valework.yingul.service.QueryService;
 import com.valework.yingul.service.ServiceService;
 import com.valework.yingul.service.UserServiceImpl.S3ServicesImpl;
@@ -65,20 +67,34 @@ public class ItemController {
 	QueryDao queryDao;
 	@Autowired 
 	QueryService queryService;
+	@Autowired
+	ProductService productService;
 	
 	@RequestMapping("/itemType/{itemId}")
     public String getItemTypeById(@PathVariable("itemId") Long itemId) {
 		Yng_Item yng_Item = itemDao.findByItemId(itemId);
 		List<Yng_Service> serviceList= serviceService.findByItem(yng_Item);
+		List<Yng_Product> productList= productService.findByItem(yng_Item);
 		//hacer pára productos, motorizados inmuebkes  
 		if(serviceList.size()==1) {
 			return "Servicio";
+		}
+		if(productList.size()==1) {
+			return "Producto";
 		}
 		else {
 			return "otro";
 		}
 		
     }
+	@RequestMapping("/Producto/{itemId}")
+    public Yng_Product getProductByIdItem(@PathVariable("itemId") Long itemId) {
+		Yng_Item yng_Item = itemDao.findByItemId(itemId);
+		List<Yng_Product> productList= productService.findByItem(yng_Item);
+		Yng_Product product = productList.get(0);
+		return product;	
+    }
+	
 	@RequestMapping("/Servicio/{itemId}")
     public Yng_Service getServiceByIdItem(@PathVariable("itemId") Long itemId) {
 		Yng_Item yng_Item = itemDao.findByItemId(itemId);
@@ -86,12 +102,19 @@ public class ItemController {
 		Yng_Service service = serviceList.get(0);
 		return service;	
     }
-	@RequestMapping("/Seller/{username}")
-    public Yng_Person getSellerByItem(@PathVariable("username") String username) {
-		Yng_User yng_User = userDao.findByUsername(username);
+	//vamos a hacer un cambio de pedir seller por username a pedir vendedor por itemid
+	@RequestMapping("/Seller/{itemId}")
+    public Yng_Person getSellerByItem(@PathVariable("itemId") Long itemId) {
+		Yng_Item yng_Item = itemDao.findByItemId(itemId);
+		Yng_User yng_User = userDao.findByUsername(yng_Item.getUser().getUsername()); 
 		List<Yng_Person> personList= personService.findByUser(yng_User);
 		Yng_Person person = personList.get(0);
 		return person;	
+    }
+	@RequestMapping("/ItemById/{itemId}")
+    public Yng_Item findItemsBySeller(@PathVariable("itemId") Long itemId) {
+    	Yng_Item yng_Item = itemDao.findByItemId(itemId);
+        return yng_Item;
     }
 	@RequestMapping("/Item/{username}")
     public List<Yng_Item> findItemsBySeller(@PathVariable("username") String username) {
