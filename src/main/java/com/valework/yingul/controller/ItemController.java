@@ -27,16 +27,20 @@ import com.valework.yingul.model.Yng_Category;
 import com.valework.yingul.model.Yng_Item;
 import com.valework.yingul.model.Yng_ItemCategory;
 import com.valework.yingul.model.Yng_ItemImage;
+import com.valework.yingul.model.Yng_Motorized;
 import com.valework.yingul.model.Yng_Person;
 import com.valework.yingul.model.Yng_Product;
+import com.valework.yingul.model.Yng_Property;
 import com.valework.yingul.model.Yng_Query;
 import com.valework.yingul.model.Yng_Service;
 import com.valework.yingul.model.Yng_User;
 import com.valework.yingul.service.ItemCategoryService;
 import com.valework.yingul.service.ItemImageService;
 import com.valework.yingul.service.ItemService;
+import com.valework.yingul.service.MotorizedService;
 import com.valework.yingul.service.PersonService;
 import com.valework.yingul.service.ProductService;
+import com.valework.yingul.service.PropertyService;
 import com.valework.yingul.service.QueryService;
 import com.valework.yingul.service.ServiceService;
 import com.valework.yingul.service.UserServiceImpl.S3ServicesImpl;
@@ -69,18 +73,30 @@ public class ItemController {
 	QueryService queryService;
 	@Autowired
 	ProductService productService;
+	@Autowired
+	PropertyService propertyService;
+	@Autowired
+	MotorizedService motorizedService;
 	
 	@RequestMapping("/itemType/{itemId}")
     public String getItemTypeById(@PathVariable("itemId") Long itemId) {
 		Yng_Item yng_Item = itemDao.findByItemId(itemId);
 		List<Yng_Service> serviceList= serviceService.findByItem(yng_Item);
 		List<Yng_Product> productList= productService.findByItem(yng_Item);
+		List<Yng_Motorized> motorizedList= motorizedService.findByItem(yng_Item);
+		List<Yng_Property> propertyList= propertyService.findByItem(yng_Item);
 		//hacer pára productos, motorizados inmuebkes  
 		if(serviceList.size()==1) {
 			return "Servicio";
 		}
 		if(productList.size()==1) {
 			return "Producto";
+		}
+		if(motorizedList.size()==1) {
+			return "Vehiculo";
+		}
+		if(propertyList.size()==1) {
+			return "Inmueble";
 		}
 		else {
 			return "otro";
@@ -101,6 +117,20 @@ public class ItemController {
 		List<Yng_Service> serviceList= serviceService.findByItem(yng_Item);
 		Yng_Service service = serviceList.get(0);
 		return service;	
+    }
+	@RequestMapping("/Vehiculo/{itemId}")
+    public Yng_Motorized getMotorizedByIdItem(@PathVariable("itemId") Long itemId) {
+		Yng_Item yng_Item = itemDao.findByItemId(itemId);
+		List<Yng_Motorized> motorizedList= motorizedService.findByItem(yng_Item);
+		Yng_Motorized motorized = motorizedList.get(0);
+		return motorized;	
+    }
+	@RequestMapping("/Inmueble/{itemId}")
+    public Yng_Property getPropertyByIdItem(@PathVariable("itemId") Long itemId) {
+		Yng_Item yng_Item = itemDao.findByItemId(itemId);
+		List<Yng_Property> propertyList= propertyService.findByItem(yng_Item);
+		Yng_Property property = propertyList.get(0);
+		return property;	
     }
 	//vamos a hacer un cambio de pedir seller por username a pedir vendedor por itemid
 	@RequestMapping("/Seller/{itemId}")
