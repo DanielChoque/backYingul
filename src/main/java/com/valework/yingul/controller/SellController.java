@@ -301,7 +301,17 @@ public class SellController {
 		ubicationTemp.setYng_Province(provinceDao.findByProvinceId(productTemp.getYng_Item().getYng_Ubication().getYng_Province().getProvinceId()));
 		ubicationTemp.setYng_City(cityDao.findByCityId(productTemp.getYng_Item().getYng_Ubication().getYng_City().getCityId()));	
 		ubicationTemp.setYng_Barrio(barrioDao.findByBarrioId(productTemp.getYng_Item().getYng_Ubication().getYng_Barrio().getBarrioId()));
-        Yng_Ubication ubicationTempo=ubicationDao.save(ubicationTemp);
+		String codAndreani="";
+		LogisticsController log=new LogisticsController();
+		try {
+			codAndreani=log.andreaniSucursales(ubicationTemp.getPostalCode(), "", "");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		ubicationTemp.setCodAndreani(""+codAndreani);
+		Yng_Ubication ubicationTempo=ubicationDao.save(ubicationTemp);
+        
         itemTemp.setYng_Ubication(ubicationTempo);
 		//para setear el usuario
 		Yng_User userTemp= userDao.findByUsername(itemTemp.getUser().getUsername());
@@ -504,7 +514,7 @@ public class SellController {
         
         
         try {
-			smtpMailSender.send(userTemp.getEmail(), "Servicio registrado exitosamente", "Su servicio ya esta registrado puede encontrarlo en: "+ruta);
+			smtpMailSender.send(userTemp.getEmail(), "INMUEBLE registrado exitosamente", "Su servicio ya esta registrado puede encontrarlo en: "+ruta);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

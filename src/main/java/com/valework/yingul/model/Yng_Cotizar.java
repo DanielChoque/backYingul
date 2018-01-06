@@ -17,6 +17,7 @@ public class Yng_Cotizar {
 		private String orden_columna;
 		private String orden_sentido;
 		private String itemID;
+		private String codAndreani;
 	
 		public final String ordenColumnaAsce ="asc";
 		public final String ordenColumnaDesc="desc";
@@ -126,14 +127,23 @@ public class Yng_Cotizar {
 		public void setItemID(String itemID) {
 			this.itemID = itemID;
 		}
+		public String getCodAndreani() {
+			return codAndreani;
+		}
+		public void setCodAndreani(String codAndreani) {
+			this.codAndreani = codAndreani;
+		}
 		@Override
 		public String toString() {
 			return "Yng_Cotizar [cotizarId=" + cotizarId + ", provincia=" + provincia + ", localidad=" + localidad
 					+ ", codigo_postal=" + codigo_postal + ", peso=" + peso + ", volumen=" + volumen + ", bultos="
 					+ bultos + ", paquetes=" + paquetes + ", correo=" + correo + ", modalidad=" + modalidad
 					+ ", servicio=" + servicio + ", direccion_envio=" + direccion_envio + ", orden_columna="
-					+ orden_columna + ", orden_sentido=" + orden_sentido + ", itemID=" + itemID + "]";
+					+ orden_columna + ", orden_sentido=" + orden_sentido + ", itemID=" + itemID + ", codAndreani="
+					+ codAndreani + "]";
 		}
+	 
+		
 
 		
 		
