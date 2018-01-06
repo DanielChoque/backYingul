@@ -218,18 +218,28 @@ public class SellController {
         	itemCategoryDao.save(s);	    
 		}
         //imagen principal
-		
-		logger.info(image);
-		String extension=image.substring(11,14);
-		if(image.charAt(13)=='e') {
-			extension="jpeg";
+        String extension;
+        String nombre;
+        byte[] bI;
+        logger.info(String.valueOf(image.charAt(0)));
+		if(image.charAt(0)=='s') {
+			temp.setPrincipalImage("sin.jpg");
+			logger.info("si funciono");
 		}
-		String nombre="principal"+temp.getItemId();
-		logger.info(extension);
-		byte[] bI = org.apache.commons.codec.binary.Base64.decodeBase64((image.substring(image.indexOf(",")+1)).getBytes());
-		s3Services.uploadFile(nombre,extension, bI);
-		nombre=nombre+"."+extension;   
-		temp.setPrincipalImage(nombre);
+		else {
+			logger.info("no funciono");
+			extension=image.substring(11,14);
+			if(image.charAt(13)=='e') {
+				extension="jpeg";
+			}
+			nombre="principal"+temp.getItemId();
+			logger.info(extension);
+			bI = org.apache.commons.codec.binary.Base64.decodeBase64((image.substring(image.indexOf(",")+1)).getBytes());
+			s3Services.uploadFile(nombre,extension, bI);
+			nombre=nombre+"."+extension;   
+			temp.setPrincipalImage(nombre);
+		}
+		
 		itemService.save(temp);
 		int k=0;
 		for (Yng_ItemImage st : itemImage) {

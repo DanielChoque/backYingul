@@ -4,12 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.valework.yingul.SmtpMailSender;
 import com.valework.yingul.dao.CategoryDao;
 import com.valework.yingul.dao.ItemDao;
@@ -43,12 +38,10 @@ import com.valework.yingul.service.ProductService;
 import com.valework.yingul.service.PropertyService;
 import com.valework.yingul.service.QueryService;
 import com.valework.yingul.service.ServiceService;
-import com.valework.yingul.service.UserServiceImpl.S3ServicesImpl;
 
 @RestController
 @RequestMapping("/item")
 public class ItemController {
-	private Logger logger = LoggerFactory.getLogger(S3ServicesImpl.class);
 	@Autowired
 	private SmtpMailSender smtpMailSender;
 	@Autowired
@@ -190,14 +183,20 @@ public class ItemController {
     	//fin del filtro de comentarios
     	query.setYng_Item(itemDao.findByItemId(query.getYng_Item().getItemId()));
     	query.setUser(userDao.findByUsername(query.getUser().getUsername()));
-    	queryDao.save(query);
-        try {
-			smtpMailSender.send(query.getYng_Item().getUser().getEmail(), "Consulta urgente sobre su Item", query.getUser().getUsername()+" pregunto "+query.getQuery()+" sobre el Item "+query.getYng_Item().getName());
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	return "save";
+    	//filtro para que no se pueda comentar un item propio
+    	if(query.getUser().getUsername()==query.getYng_Item().getUser().getUsername()) {
+    		return "no puedes comentar producos, servicios, inmuebles o vehiculos propios";
+    	}
+    	else {
+			queryDao.save(query);
+		    try {
+				smtpMailSender.send(query.getYng_Item().getUser().getEmail(), "Consulta urgente sobre su Item", query.getUser().getUsername()+" pregunto "+query.getQuery()+" sobre el Item "+query.getYng_Item().getName()+". Puedes responder las consultas en: http://yingulportal-env.nirtpkkpjp.us-west-2.elasticbeanstalk.com/query");
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return "save";
+    	}
     }
     
     //talvez estos metodos deberan ir en otro controlador 

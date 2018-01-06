@@ -44,6 +44,7 @@ public class HomeController {
 	@ResponseBody
     public String signupPost(@Valid @RequestBody Yng_Person person) throws MessagingException {
 		Yng_User user=person.getYng_User();
+		user.setYng_Ubication(null);
 		String password= user.getPassword();
 		user.setUsername(person.getName()+person.getLastname());
 		LOG.info(user.getUsername());
