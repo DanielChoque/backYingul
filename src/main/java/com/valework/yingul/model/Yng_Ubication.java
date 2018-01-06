@@ -19,6 +19,7 @@ public class Yng_Ubication {
 	private String number;
 	private String postalCode;
 	private String aditional;
+	private String codAndreani="";
 	@OneToOne
     private Yng_City yng_City;
 	@OneToOne
@@ -94,13 +95,22 @@ public class Yng_Ubication {
 	public void setYng_Barrio(Yng_Barrio yng_Barrio) {
 		this.yng_Barrio = yng_Barrio;
 	}
+	public String getCodAndreani() {
+		return codAndreani;
+	}
+	public void setCodAndreani(String codAndreani) {
+		this.codAndreani = codAndreani;
+	}
 	@Override
 	public String toString() {
 		return "Yng_Ubication [ubicationId=" + ubicationId + ", latitud=" + latitud + ", longitud=" + longitud
 				+ ", street=" + street + ", number=" + number + ", postalCode=" + postalCode + ", aditional="
-				+ aditional + ", yng_City=" + yng_City + ", yng_Province=" + yng_Province + ", yng_Department="
-				+ yng_Department + ", yng_Barrio=" + yng_Barrio + "]";
+				+ aditional + ", codAndreani=" + codAndreani + ", yng_City=" + yng_City + ", yng_Province="
+				+ yng_Province + ", yng_Department=" + yng_Department + ", yng_Barrio=" + yng_Barrio + "]";
 	}
+	
+	
+	
 
 	
 }
