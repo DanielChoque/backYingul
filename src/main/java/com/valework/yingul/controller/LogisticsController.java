@@ -28,6 +28,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,10 +54,14 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.valework.yingul.logistic.SucursalHandler;
+import com.valework.yingul.model.AndreaniCot;
 import com.valework.yingul.model.Yng_Cotizar;
 import com.valework.yingul.model.Yng_Envio;
+import com.valework.yingul.model.Yng_Product;
+import com.valework.yingul.model.Yng_Service;
 import com.valework.yingul.model.Yng_Token;
 import com.valework.yingul.logistic.*;
+
 
 
 @RestController
@@ -860,10 +865,125 @@ public class LogisticsController {
       
       System.out.println("strResponse:"+convertiraISO(strResponse));
       return ""+numero;
+      
+   
+      
 
    }
   
-     
+ 	@RequestMapping(value = "/branch", method = RequestMethod.POST)
+  	@ResponseBody
+      public List<ResultadoConsultarSucursales> sucursalesList(@Valid @RequestBody AndreaniCot product){
+ 		System.out.println(product.toString());
+    	  List<ResultadoConsultarSucursales> sucursal = null;
+    	  AndreaniCot cot=new AndreaniCot();
+    	  cot.setUsername("");
+    	  cot.setPassword("");
+    	  cot.setCodigoPostal("");
+    	  cot.setLocalidad("");
+    	  cot.setProvincia("");
+    	  //cot=cotizar;
+    	  System.out.println(cot.toString());
+		try {
+			sucursal = andreaniSucursalList(cot);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	  return sucursal;
+      }
+ 	
+ 	 public List<ResultadoConsultarSucursales> andreaniSucursalList(AndreaniCot cot) throws Exception{ 
+    	String body3="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + 
+				"<env:Envelope\r\n" + 
+				"    xmlns:env=\"http://www.w3.org/2003/05/soap-envelope\"\r\n" + 
+				"    xmlns:ns1=\"urn:ConsultarSucursales\"\r\n" + 
+				"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n" + 
+				"    xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\r\n" + 
+				"    xmlns:ns2=\"http://xml.apache.org/xml-soap\"\r\n" + 
+				"    xmlns:ns3=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\"\r\n" + 
+				"    xmlns:enc=\"http://www.w3.org/2003/05/soap-encoding\">\r\n" + 
+				"    <env:Header>\r\n" + 
+				"        <ns3:Security env:mustUnderstand=\"true\">\r\n" + 
+				"            <ns3:UsernameToken>\r\n" + 
+				"                <ns3:Username>"
+				+ cot.getPassword()
+				+ "</ns3:Username>\r\n" + 
+				"                <ns3:Password>"
+				+ cot.getPassword()
+				+ "</ns3:Password>\r\n" + 
+				"            </ns3:UsernameToken>\r\n" + 
+				"        </ns3:Security>\r\n" + 
+				"    </env:Header>\r\n" + 
+				"    <env:Body>\r\n" + 
+				"        <ns1:ConsultarSucursales env:encodingStyle=\"http://www.w3.org/2003/05/soap-encoding\">\r\n" + 
+				"            <Consulta xsi:type=\"ns2:Map\">\r\n" + 
+				"                <item>\r\n" + 
+				"                    <key xsi:type=\"xsd:string\">consulta</key>\r\n" + 
+				"                    <value xsi:type=\"ns2:Map\">\r\n" + 
+				"                        <item>\r\n" + 
+				"                            <key xsi:type=\"xsd:string\">Localidad</key>\r\n" + 
+				"                            <value xsi:type=\"xsd:string\">"
+				+ cot.getLocalidad()
+				+ "</value>\r\n" + 
+				"                        </item>\r\n" + 
+				"                        <item>\r\n" + 
+				"                            <key xsi:type=\"xsd:string\">CodigoPostal</key>\r\n" + 
+				"                            <value xsi:type=\"xsd:string\">"
+				+ cot.getCodigoPostal()
+				+ "</value>\r\n" + 
+				"                        </item>\r\n" + 
+				"                        <item>\r\n" + 
+				"                            <key xsi:type=\"xsd:string\">Provincia</key>\r\n" + 
+				"                            <value xsi:type=\"xsd:string\">"
+				+ cot.getProvincia()
+				+ "</value>\r\n" + 
+				"                        </item>\r\n" + 
+				"                    </value>\r\n" + 
+				"                </item>\r\n" + 
+				"            </Consulta>\r\n" + 
+				"        </ns1:ConsultarSucursales>\r\n" + 
+				"    </env:Body>\r\n" + 
+				"</env:Envelope>";
+		
+
+    	 
+    	 StringEntity stringEntity = new StringEntity(body3, "UTF-8");
+		
+        stringEntity.setChunked(true);
+        HttpPost httpPost = new HttpPost(urlSuc);
+        httpPost.setEntity(stringEntity);
+        httpPost.addHeader("Content-Type", "text/xml");
+        httpPost.addHeader("SOAPAction", "soapAction");
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpResponse response = httpClient.execute(httpPost);
+        HttpEntity entity = response.getEntity();
+        SAXParserFactory saxParseFactory=SAXParserFactory.newInstance();
+        SAXParser sAXParser=saxParseFactory.newSAXParser();
+
+        String numero="";
+        String strResponse = null;
+     List<ResultadoConsultarSucursales> sucursal = null;
+        if (entity != null) {
+            strResponse = EntityUtils.toString(entity);
+            SucursalHandler handlerS=new SucursalHandler();
+            sAXParser.parse(new InputSource(new StringReader(strResponse)), handlerS);
+            ArrayList<ResultadoConsultarSucursales> sucursaleses=handlerS.getResultadoSucursales();
+            sucursal=handlerS.getResultadoSucursales();
+            for (ResultadoConsultarSucursales versione : sucursaleses) {
+            	numero=versione.getNumero();
+                System.out.println("versione.getNumero:"+versione.getNumero());
+                
+            
+            }
+        }
+        
+        // List<ResultadoConsultarSucursales> sucursal
+        
+        System.out.println("strResponse:"+convertiraISO(strResponse));
+        return sucursal;
+
+     }
      
     
 }
