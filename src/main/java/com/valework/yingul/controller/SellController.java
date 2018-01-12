@@ -1,6 +1,7 @@
 package com.valework.yingul.controller;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
@@ -39,6 +40,8 @@ import com.valework.yingul.dao.ServiceProvinceDao;
 import com.valework.yingul.dao.SoundDao;
 import com.valework.yingul.dao.UbicationDao;
 import com.valework.yingul.dao.UserDao;
+import com.valework.yingul.logistic.ResultadoConsultarSucursales;
+import com.valework.yingul.model.AndreaniCot;
 import com.valework.yingul.model.Yng_Item;
 import com.valework.yingul.model.Yng_ItemCategory;
 import com.valework.yingul.model.Yng_ItemImage;
@@ -52,6 +55,7 @@ import com.valework.yingul.model.Yng_Product;
 import com.valework.yingul.model.Yng_Property;
 import com.valework.yingul.model.Yng_PropertyAmbient;
 import com.valework.yingul.model.Yng_PropertyAmenities;
+import com.valework.yingul.model.Yng_Query;
 import com.valework.yingul.model.Yng_Service;
 import com.valework.yingul.model.Yng_ServiceProvince;
 import com.valework.yingul.model.Yng_Ubication;
@@ -61,6 +65,8 @@ import com.valework.yingul.service.S3Services;
 import com.valework.yingul.service.ServiceService;
 import com.valework.yingul.service.UserServiceImpl.S3ServicesImpl;
 import com.valework.yingul.service.StorageService;
+
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -708,4 +714,24 @@ public class SellController {
 		s3Services.uploadFile(nombre,extension, bI);
 		return "save";
 	}
+	
+	@RequestMapping("/ubication/{username}")
+    public Yng_Ubication findQueriesByUser(@PathVariable("username") String username) {
+		String codUbi="";
+		Yng_Ubication yng_Ubication=null;
+		
+    	Yng_User yng_User = userDao.findByUsername(username);
+    	System.out.println("yng_User.getYng_Ubication():"+yng_User.getYng_Ubication());
+        //List<Yng_Query> queryList = queryService.findByUser(yng_User);
+    	
+    	//codUbi=""+yng_User.getYng_Ubication().getUbicationId();
+    	///System.out.println("yng_User.getYng_Ubication().getUbicationId():"+yng_User.getYng_Ubication().getUbicationId());
+    	if(yng_User.getYng_Ubication()!=null) {
+    		yng_Ubication=yng_User.getYng_Ubication();
+    	} 
+    	 
+       // return ""+codUbi;
+    	return yng_Ubication;
+    }
+
 }

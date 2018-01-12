@@ -55,6 +55,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.valework.yingul.logistic.SucursalHandler;
 import com.valework.yingul.model.AndreaniCot;
+import com.valework.yingul.model.Yng_AndreaniCotizacion;
+import com.valework.yingul.model.Yng_AndreaniSucursal;
 import com.valework.yingul.model.Yng_Cotizar;
 import com.valework.yingul.model.Yng_Envio;
 import com.valework.yingul.model.Yng_Product;
@@ -871,29 +873,9 @@ public class LogisticsController {
 
    }
   
- 	@RequestMapping(value = "/branch", method = RequestMethod.POST)
-  	@ResponseBody
-      public List<ResultadoConsultarSucursales> sucursalesList(@Valid @RequestBody AndreaniCot product){
- 		System.out.println(product.toString());
-    	  List<ResultadoConsultarSucursales> sucursal = null;
-    	  AndreaniCot cot=new AndreaniCot();
-    	  cot.setUsername("");
-    	  cot.setPassword("");
-    	  cot.setCodigoPostal("");
-    	  cot.setLocalidad("");
-    	  cot.setProvincia("");
-    	  //cot=cotizar;
-    	  System.out.println(cot.toString());
-		try {
-			sucursal = andreaniSucursalList(cot);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	  return sucursal;
-      }
+
  	
- 	 public List<ResultadoConsultarSucursales> andreaniSucursalList(AndreaniCot cot) throws Exception{ 
+ 	 public List<ResultadoConsultarSucursales> andreaniSucursalList(Yng_AndreaniSucursal cot) throws Exception{ 
     	String body3="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + 
 				"<env:Envelope\r\n" + 
 				"    xmlns:env=\"http://www.w3.org/2003/05/soap-envelope\"\r\n" + 
@@ -984,6 +966,175 @@ public class LogisticsController {
         return sucursal;
 
      }
+ 	 
+  	@RequestMapping(value = "/branch", method = RequestMethod.POST)
+  	@ResponseBody
+      public List<ResultadoConsultarSucursales> sucursalesList(@Valid @RequestBody Yng_AndreaniSucursal suc){
+ 		System.out.println(suc.toString());
+    	  List<ResultadoConsultarSucursales> sucursal = null;
+    	  Yng_AndreaniSucursal cot=new Yng_AndreaniSucursal();
+    	  cot.setUsername("");
+    	  cot.setPassword("");
+    	  cot.setCodigoPostal("");
+    	  cot.setLocalidad("");
+    	  cot.setProvincia("");
+    	  cot=suc;
+    	  cot.setUsername("STAGING_WS");
+    	  cot.setPassword("ANDREANI");
+    	  System.out.println(cot.toString());
+		try {
+			sucursal = andreaniSucursalList(cot);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	  return sucursal;
+      }
+ 	@RequestMapping(value = "/cotizarAndreani", method = RequestMethod.POST)
+	@ResponseBody
+    public CotizarEnvioResponse andreaniCotizarList(@Valid @RequestBody Yng_AndreaniCotizacion cotizar) throws MessagingException {
+ 		CotizarEnvioResponse cot=null;
+ 		Yng_AndreaniCotizacion cotizarTemp=cotizar;
+ 		System.out.println(cotizarTemp.toString()); 		
+ 		try {
+ 			andreaniPost();
+		} catch (Exception e) {
+						e.printStackTrace();
+		}
+ 		List<Yng_Cotizar>cotizarList;
+ 		String ta="";
+ 		try {
+ 			cot=andreaniCotiza(cotizarTemp);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 		
+ 		System.out.println("tarifa:"+ta);
+ 		return cot;
+ 	}
+    public CotizarEnvioResponse andreaniCotiza(Yng_AndreaniCotizacion cotizarTemp) throws Exception{ 
+	 	String body2="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + 
+			"<env:Envelope\r\n" + 
+			"    xmlns:env=\"http://www.w3.org/2003/05/soap-envelope\"\r\n" + 
+			"    xmlns:ns1=\"urn:CotizarEnvio\"\r\n" + 
+			"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n" + 
+			"    xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\r\n" + 
+			"    xmlns:ns2=\"http://xml.apache.org/xml-soap\"\r\n" + 
+			"    xmlns:ns3=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\"\r\n" + 
+			"    xmlns:enc=\"http://www.w3.org/2003/05/soap-encoding\">\r\n" + 
+			"    <env:Header>\r\n" + 
+			"        <ns3:Security env:mustUnderstand=\"true\">\r\n" + 
+			"            <ns3:UsernameToken>\r\n" + 
+			"                <ns3:Username>"
+			+ cotizarTemp.getUsername()
+			+ "</ns3:Username>\r\n" + 
+			"                <ns3:Password>"
+			+ cotizarTemp.getPassword()
+			+ "</ns3:Password>\r\n" + 
+			"            </ns3:UsernameToken>\r\n" + 
+			"        </ns3:Security>\r\n" + 
+			"    </env:Header>\r\n" + 
+			"    <env:Body>\r\n" + 
+			"        <ns1:CotizarEnvio env:encodingStyle=\"http://www.w3.org/2003/05/soap-encoding\">\r\n" + 
+			"            <cotizacionEnvio xsi:type=\"ns2:Map\">\r\n" + 
+			"                <item>\r\n" + 
+			"                    <key xsi:type=\"xsd:string\">cotizacionEnvio</key>\r\n" + 
+			"                    <value xsi:type=\"ns2:Map\">\r\n" + 
+			"                        <item>\r\n" + 
+			"                            <key xsi:type=\"xsd:string\">CPDestino</key>\r\n" + 
+			"                            <value xsi:type=\"xsd:string\">"
+			+ cotizarTemp.getCodigoPostal()
+			+ "</value>\r\n" + 
+			"                        </item>\r\n" + 
+			"                        <item>\r\n" + 
+			"                            <key xsi:type=\"xsd:string\">Cliente</key>\r\n" + 
+			"                            <value xsi:type=\"xsd:string\">"
+			+ "CL0003750"
+			+ "</value>\r\n" + 
+			"                        </item>\r\n" + 
+			"                        <item>\r\n" + 
+			"                            <key xsi:type=\"xsd:string\">Contrato</key>\r\n" + 
+			"                            <value xsi:type=\"xsd:string\">"
+			+ "400006711"
+			+ "</value>\r\n" + 
+			"                        </item>\r\n" + 
+			"                        <item>\r\n" + 
+			"                            <key xsi:type=\"xsd:string\">Peso</key>\r\n" + 
+			"                            <value xsi:type=\"xsd:int\">"
+			+ cotizarTemp.getPeso()
+			+ "</value>\r\n" + 
+			"                        </item>\r\n" + 
+			"                        <item>\r\n" + 
+			"                            <key xsi:type=\"xsd:string\">SucursalRetiro</key>\r\n" + 
+			"                            <value xsi:type=\"xsd:string\">"
+			+ cotizarTemp.getCodigoDeSucursal()
+			+ "</value>\r\n" + 
+			"                        </item>\r\n" + 
+			"                        <item>\r\n" + 
+			"                            <key xsi:type=\"xsd:string\">Volumen</key>\r\n" + 
+			"                            <value xsi:type=\"xsd:int\">"
+			+ cotizarTemp.getVolumen()
+			+ "</value>\r\n" + 
+			"                        </item>\r\n" + 
+			"                        <item>\r\n" + 
+			"                            <key xsi:type=\"xsd:string\">ValorDeclarado</key>\r\n" + 
+			"                            <value xsi:type=\"xsd:int\">"
+			+ cotizarTemp.getValorDeclarado()
+			+ "</value>\r\n" + 
+			"                        </item>\r\n" + 
+			"                    </value>\r\n" + 
+			"                </item>\r\n" + 
+			"            </cotizacionEnvio>\r\n" + 
+			"        </ns1:CotizarEnvio>\r\n" + 
+			"    </env:Body>\r\n" + 
+			"</env:Envelope>\r\n" + 
+			"";
+
+	 StringEntity stringEntity = new StringEntity(body2, "UTF-8");
+	
+    stringEntity.setChunked(true);
+    HttpPost httpPost = new HttpPost(urlCotizar);
+    httpPost.setEntity(stringEntity);
+    httpPost.addHeader("Content-Type", "text/xml");
+    httpPost.addHeader("SOAPAction", "soapAction");
+    HttpClient httpClient = new DefaultHttpClient();
+    HttpResponse response = httpClient.execute(httpPost);
+    HttpEntity entity = response.getEntity();
+    SAXParserFactory saxParseFactory=SAXParserFactory.newInstance();
+    SAXParser sAXParser=saxParseFactory.newSAXParser();
+
+    String numero="";
+    String strResponse = null;
+    CotizarEnvioResponse cot=null;
+    if (entity != null) {
+        strResponse = EntityUtils.toString(entity);
+        /*SucursalHandler handlerS=new SucursalHandler();
+        sAXParser.parse(new InputSource(new StringReader(strResponse)), handlerS);
+        ArrayList<ResultadoConsultarSucursales> sucursaleses=handlerS.getResultadoSucursales();
+        for (ResultadoConsultarSucursales versione : sucursaleses) {
+        	numero=versione.getNumero();
+            System.out.println("versione.getNumero:"+versione.getNumero());
+        
+        }*/
+        
+        CotizarHandler handlerC=new CotizarHandler();
+        sAXParser.parse(new InputSource(new StringReader(strResponse)), handlerC);
+         ArrayList<CotizarEnvioResponse> cotizarEnvioResponses=handlerC.getCotizarEnvioResponse();
+        for (CotizarEnvioResponse versione : cotizarEnvioResponses) {
+        	numero=versione.getTarifa();
+            System.out.println(" log versione:"+versione);
+            cot=versione;
+            
+        
+        }
+    }
+    
+    System.out.println("strResponse:"+convertiraISO(strResponse));
+    return cot;
+
+ }
+
      
     
 }

@@ -18,9 +18,10 @@ public class Yng_Cotizar {
 		private String orden_sentido;
 		private String itemID;
 		private String codAndreani;
+	    private String precio;
 	
-		public final String ordenColumnaAsce ="asc";
-		public final String ordenColumnaDesc="desc";
+		public final static String ordenColumnaAsce ="asc";
+		public final static String ordenColumnaDesc="desc";
 		public final String modalidadEnvioDomicilio="D";
 		public final String modalidadEnvioSucursal="S";
 		public final String servicioEstandar="N";
@@ -133,6 +134,12 @@ public class Yng_Cotizar {
 		public void setCodAndreani(String codAndreani) {
 			this.codAndreani = codAndreani;
 		}
+		public String getPrecio() {
+			return precio;
+		}
+		public void setPrecio(String precio) {
+			this.precio = precio;
+		}
 		@Override
 		public String toString() {
 			return "Yng_Cotizar [cotizarId=" + cotizarId + ", provincia=" + provincia + ", localidad=" + localidad
@@ -140,8 +147,20 @@ public class Yng_Cotizar {
 					+ bultos + ", paquetes=" + paquetes + ", correo=" + correo + ", modalidad=" + modalidad
 					+ ", servicio=" + servicio + ", direccion_envio=" + direccion_envio + ", orden_columna="
 					+ orden_columna + ", orden_sentido=" + orden_sentido + ", itemID=" + itemID + ", codAndreani="
-					+ codAndreani + "]";
+					+ codAndreani + ", precio=" + precio + ", ordenColumnaAsce=" + ordenColumnaAsce
+					+ ", ordenColumnaDesc=" + ordenColumnaDesc + ", modalidadEnvioDomicilio=" + modalidadEnvioDomicilio
+					+ ", modalidadEnvioSucursal=" + modalidadEnvioSucursal + ", servicioEstandar=" + servicioEstandar
+					+ ", servicioPrioritario=" + servicioPrioritario + ", servicioExpres=" + servicioExpres
+					+ ", servicioDevoluciones=" + servicioDevoluciones + ", ordenColumnaValor=" + ordenColumnaValor
+					+ ", ordenColumnaHorasEntrega=" + ordenColumnaHorasEntrega + ", ordenColumnaCumplimiento="
+					+ ordenColumnaCumplimiento + ", ordenColumnaAnomalos=" + ordenColumnaAnomalos + "]";
 		}
+		
+		
+		
+		
+
+
 	 
 		
 
