@@ -4,12 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,18 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.valework.yingul.SmtpMailSender;
 import com.valework.yingul.dao.QueryDao;
 import com.valework.yingul.dao.UserDao;
 import com.valework.yingul.model.Yng_Query;
 import com.valework.yingul.model.Yng_User;
 import com.valework.yingul.service.QueryService;
-import com.valework.yingul.service.UserServiceImpl.S3ServicesImpl;
 
 @RestController
 @RequestMapping("/query")
 public class QueryController {
-	private Logger logger = LoggerFactory.getLogger(S3ServicesImpl.class);
+	@Autowired
+	private SmtpMailSender smtpMailSender;
 	@Autowired 
 	UserDao userDao; 
 	@Autowired
@@ -68,9 +64,15 @@ public class QueryController {
     	Date date = new Date();
     	DateFormat hourdateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     	queryTemp.setDate(hourdateFormat.format(date));
+    	try {
+			smtpMailSender.send(queryTemp.getUser().getEmail(), "Respuesta sobre "+queryTemp.getYng_Item().getName(), queryTemp.getYng_Item().getUser().getUsername()+" respondio!!! sobre" +queryTemp.getYng_Item().getName()+". Puedes ver la repuesta en: http://yingulportal-env.nirtpkkpjp.us-west-2.elasticbeanstalk.com/itemDetail/"+queryTemp.getYng_Item().getItemId());
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	//fin de la fecha de respuesta
     	queryDao.save(queryTemp);
-    	return "save";
+		return "save";
     }
 
 }

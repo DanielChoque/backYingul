@@ -44,11 +44,30 @@ public class Yng_Product {
 	private String productWarranty;
 	@Column(name="productPagoEnvio")
 	private String productPagoEnvio;
+	private String productPeso="";
+	private String producVolumen="";
+	//private String 
 	
 	@OneToOne 
 	private Yng_Item yng_Item;
 
 	
+
+	public String getProductPeso() {
+		return productPeso;
+	}
+
+	public void setProductPeso(String productPeso) {
+		this.productPeso = productPeso;
+	}
+
+	public String getProducVolumen() {
+		return producVolumen;
+	}
+
+	public void setProducVolumen(String producVolumen) {
+		this.producVolumen = producVolumen;
+	}
 
 	public String getProductCondition() {
 		return productCondition;
@@ -116,13 +135,14 @@ public class Yng_Product {
 
 	@Override
 	public String toString() {
-		return "Yng_Product [product_id=" + productId + ", productCondition=" + productCondition
+		return "Yng_Product [productId=" + productId + ", productCondition=" + productCondition
 				+ ", productSaleConditions=" + productSaleConditions + ", productQuantity=" + productQuantity
 				+ ", productFormDelivery=" + productFormDelivery + ", productPaymentMethod=" + productPaymentMethod
-				+ ", productWarranty=" + productWarranty + ", productPagoEnvio=" + productPagoEnvio + ", yng_Item="
-				+ yng_Item + "]";
+				+ ", productWarranty=" + productWarranty + ", productPagoEnvio=" + productPagoEnvio + ", productPeso="
+				+ productPeso + ", producVolumen=" + producVolumen + ", yng_Item=" + yng_Item + "]";
 	}
-	
+
+
 	
 	
 	

@@ -1,6 +1,7 @@
 package com.valework.yingul.controller;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
@@ -39,6 +40,8 @@ import com.valework.yingul.dao.ServiceProvinceDao;
 import com.valework.yingul.dao.SoundDao;
 import com.valework.yingul.dao.UbicationDao;
 import com.valework.yingul.dao.UserDao;
+import com.valework.yingul.logistic.ResultadoConsultarSucursales;
+import com.valework.yingul.model.AndreaniCot;
 import com.valework.yingul.model.Yng_Item;
 import com.valework.yingul.model.Yng_ItemCategory;
 import com.valework.yingul.model.Yng_ItemImage;
@@ -218,18 +221,28 @@ public class SellController {
         	itemCategoryDao.save(s);	    
 		}
         //imagen principal
-		
-		logger.info(image);
-		String extension=image.substring(11,14);
-		if(image.charAt(13)=='e') {
-			extension="jpeg";
+        String extension;
+        String nombre;
+        byte[] bI;
+        logger.info(String.valueOf(image.charAt(0)));
+		if(image.charAt(0)=='s') {
+			temp.setPrincipalImage("sin.jpg");
+			logger.info("si funciono");
 		}
-		String nombre="principal"+temp.getItemId();
-		logger.info(extension);
-		byte[] bI = org.apache.commons.codec.binary.Base64.decodeBase64((image.substring(image.indexOf(",")+1)).getBytes());
-		s3Services.uploadFile(nombre,extension, bI);
-		nombre=nombre+"."+extension;   
-		temp.setPrincipalImage(nombre);
+		else {
+			logger.info("no funciono");
+			extension=image.substring(11,14);
+			if(image.charAt(13)=='e') {
+				extension="jpeg";
+			}
+			nombre="principal"+temp.getItemId();
+			logger.info(extension);
+			bI = org.apache.commons.codec.binary.Base64.decodeBase64((image.substring(image.indexOf(",")+1)).getBytes());
+			s3Services.uploadFile(nombre,extension, bI);
+			nombre=nombre+"."+extension;   
+			temp.setPrincipalImage(nombre);
+		}
+		
 		itemService.save(temp);
 		int k=0;
 		for (Yng_ItemImage st : itemImage) {
@@ -301,7 +314,17 @@ public class SellController {
 		ubicationTemp.setYng_Province(provinceDao.findByProvinceId(productTemp.getYng_Item().getYng_Ubication().getYng_Province().getProvinceId()));
 		ubicationTemp.setYng_City(cityDao.findByCityId(productTemp.getYng_Item().getYng_Ubication().getYng_City().getCityId()));	
 		ubicationTemp.setYng_Barrio(barrioDao.findByBarrioId(productTemp.getYng_Item().getYng_Ubication().getYng_Barrio().getBarrioId()));
-        Yng_Ubication ubicationTempo=ubicationDao.save(ubicationTemp);
+		String codAndreani="";
+		LogisticsController log=new LogisticsController();
+		try {
+			codAndreani=log.andreaniSucursales(ubicationTemp.getPostalCode(), "", "");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		ubicationTemp.setCodAndreani(""+codAndreani);
+		Yng_Ubication ubicationTempo=ubicationDao.save(ubicationTemp);
+        
         itemTemp.setYng_Ubication(ubicationTempo);
 		//para setear el usuario
 		Yng_User userTemp= userDao.findByUsername(itemTemp.getUser().getUsername());
@@ -504,7 +527,7 @@ public class SellController {
         
         
         try {
-			smtpMailSender.send(userTemp.getEmail(), "Servicio registrado exitosamente", "Su servicio ya esta registrado puede encontrarlo en: "+ruta);
+			smtpMailSender.send(userTemp.getEmail(), "INMUEBLE registrado exitosamente", "Su servicio ya esta registrado puede encontrarlo en: "+ruta);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -688,4 +711,6 @@ public class SellController {
 		s3Services.uploadFile(nombre,extension, bI);
 		return "save";
 	}
+	
+
 }

@@ -51,7 +51,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/index/**",
             "/user/**",
             "/item/**",
-            "/query/**"
+            "/query/**",
+            "/buy/**",
+            "/motorized/**",
+            "/business/**",
+            "/logistics/**"
     };
 
     @Override

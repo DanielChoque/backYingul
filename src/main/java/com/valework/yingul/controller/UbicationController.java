@@ -51,6 +51,14 @@ public class UbicationController {
         List<Yng_City> cityList = cityService.findByProvince(yng_Province);
         return cityList;
     }
+    @RequestMapping("/cp/{cp}")
+    public List<Yng_City> findCityListByProvinceCP(@PathVariable("cp") int cp) {
+    	//Yng_Province yng_Province = provinceService.findByProvinceId(provinceId);
+        List<Yng_City> cityList = cityService.findByProvince2(cp);//.findByProvince(yng_Province);
+        System.out.println(""+cp);
+        return cityList;
+    }
+    
     @RequestMapping("/barrio/{cityId}")
     public List<Yng_Barrio> findBarrioListByCity(@PathVariable("cityId") int cityId) {
     	Yng_City yng_City = cityService.findByCityId(cityId);

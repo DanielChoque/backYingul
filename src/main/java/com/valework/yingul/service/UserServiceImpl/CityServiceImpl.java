@@ -24,10 +24,30 @@ public class CityServiceImpl implements CityService{
                 .collect(Collectors.toList());
         return cityList;
 	}
+	
+	public List<Yng_City> findByProvince2(int cp) {
+		//int provinceId = yng_province.getProvinceId();
+		String postalCode=""+cp;
+		List<Yng_City> cityList = cityDao.findAll().stream() 			//convert list to stream
+                .filter(city -> postalCode.equals(city.getCodigopostal()))	//filters the line, equals to username
+                .collect(Collectors.toList());
+        return cityList;
+	}
+	
+	
 
 	public Yng_City findByCityId(int cityId) {
 		return cityDao.findByCityId(cityId);
 	}
 	
+	public Yng_City findByCityCP(String cp) {
+		return cityDao.findByCodigopostal(cp);
+	}
+
+	@Override
+	public List<Yng_City> findByCP(String cp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
